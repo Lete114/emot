@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+
+  <title>Emot Demo</title>
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    .preview {
+      padding: 10px;
+      overflow-x: auto;
+      min-height: 1.375rem;
+      margin: 10px 0;
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+    }
+
+    .preview img {
+      width: 32px;
+      height: auto;
+      vertical-align: middle;
+    }
+
+    textarea {
+      margin: 10px 0 0;
+      resize: vertical;
+      width: 100%;
+      min-height: 200px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    button {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.9;
+      outline: none;
+      line-height: 1;
+      width: 100%;
+      height: 32px;
+      cursor: pointer;
+      text-align: center;
+      font-weight: 600;
+      padding: 6px;
+      font-size: 14px;
+      color: #fff;
+      border: 1px solid #f4645f;
+      background: #f4645f;
+      transition: 0.1s;
+      border-radius: 4px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      user-select: none;
+    }
+  </style>
+  <script src="./emot.js"></script>
+
+</head>
+
+<body>
+  <textarea></textarea>
+  <button>开启实时预览</button>
+  <div class="preview"></div>
+  <script>
+    const emot = new Emot({
+      el: 'body',
+      target: 'textarea',
+      emotMaps: './emot.json'
+    })
+    const result = emot.get()
+    const preview = document.querySelector('.preview')
+
+    let timer
+    document.querySelector('button').onclick = function() {
+      this.off = !this.off
+      clearInterval(timer)
+      if (this.off) {
+        this.textContent = '关闭实时预览'
+        let oldContent
+        timer = setInterval(function(){
+          if (oldContent !== result.content) {
+            oldContent = result.content
+            preview.innerHTML = result.contentHTML
+          }
+        }, 100);
+      } else {
+        this.textContent = '开启实时预览'
+      }
+    }
+  </script>
+</body>
+
+</html>
