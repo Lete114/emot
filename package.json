@@ -1,6 +1,6 @@
 {
   "name": "emot",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "一个表情处理模块，支持 img 类型解析，输出两种格式的表情字符串",
   "main": "dist/emot.cjs.js",
   "module": "dist/emot.esm.js",
@@ -35,6 +35,7 @@
     "prettier": "^2.6.2",
     "rollup": "^2.3.4",
     "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-import-css": "^3.0.3",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.0"
   }

@@ -1,3 +1,5 @@
+import styles from './main.css'
+
 function createElement(name, className) {
   const dom = document.createElement(name)
   if (className) dom.className = className
@@ -141,10 +143,7 @@ export default class Emot {
 
   #injectStyle() {
     const style = createElement('style')
-    /* eslint-disable max-len */
-    style.textContent =
-      '.emot{top:30px;width:100%;margin-top:10px;border:1px solid rgba(128,128,128,0.2);border-radius:4px;background:#fff;}.emot-items{display:none;height:180px;min-height:100px;max-height:200px;resize:vertical;padding:10px;margin:0;font-size:0;overflow-x:hidden;user-select:none;}.emot-items-active{display:block;}.emot-item{list-style-type:none;padding:5px 10px;border-radius:5px;display:inline-block;font-size:12px;line-height:14px;margin:0 10px 12px 0;cursor:pointer;transition:0.3s;}.emot-item img{width:32px;height:auto;}.emot-item:hover{background:rgba(128,128,128,0.2);box-shadow:0 2px 2px 0 rgb(0 0 0 / 14%),0 3px 1px -2px rgb(0 0 0 / 20%),0 1px 5px 0 rgb(0 0 0 / 12%);}.emot-packages{padding:0;font-size:0;border-top:solid 1px rgba(128,128,128,0.2);}.emot-packages span{display:inline-block;line-height:30px;font-size:14px;padding:0 10px;cursor:pointer;}.emot-packages:nth-child(1){border-radius:0 0 0 3px;}.emot-packages span img{width:20px;position:relative;top:5px;}.emot-package-active{background:rgba(128,128,128,0.2);}'
-    /* eslint-enable max-len */
+    style.textContent = styles
     document.head.appendChild(style)
   }
 
