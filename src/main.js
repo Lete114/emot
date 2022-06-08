@@ -151,20 +151,16 @@ export default class Emot {
   #request(emotMaps) {
     // 判断是否是.json结尾，如果是则发送请求
     if (!/\.json$/.test(emotMaps)) return this.#init()
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', emotMaps, true)
-    xhr.send()
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4) {
-        const isSuccess = xhr.status >= 200 && xhr.status < 300
-        if (isSuccess) {
-          this.#output.emotMaps = this.#options.emotMaps = JSON.parse(xhr.responseText)
+    try {
+      fetch(emotMaps)
+        .then((res) => res.json())
+        .then((res) => {
+          this.#options.emotMaps = res
           this.#init()
-        } else {
-          // eslint-disable-next-line no-console
-          console.error('Emotion request failure:', xhr)
-        }
-      }
+        })
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Emotion request failure:', JSON.stringify(e))
     }
   }
 }
