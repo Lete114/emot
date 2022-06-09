@@ -15,6 +15,8 @@ export default class Emot {
     this.#options = options
     this.#options.el = document.querySelector(options.el)
     this.#options.target = document.querySelector(options.target)
+    this.#options.before = this.#options.before || '['
+    this.#options.after = this.#options.after || ']'
     this.#output = { content: '', contentHTML: '' }
     this.#emotAll = {}
     this.#request(this.#options.emotMaps)
@@ -68,7 +70,7 @@ export default class Emot {
           const Start = ctx.substring(0, cursorStart)
           const Ent = ctx.substring(cursorEnd)
           if (emotValue.type === 'text') self.#output.content = Start + iValue + Ent
-          else self.#output.content = Start + '[' + iKey + ']' + Ent
+          else self.#output.content = Start + self.#options.before + iKey + self.#options.after + Ent
           self.#options.target.focus()
           self.#options.target.value = self.#output.content
           // 将光标指定到插入内容的后面
@@ -122,10 +124,13 @@ export default class Emot {
   }
 
   #parseEmot() {
+    const before = this.#options.before
+    const after = this.#options.after
     let ctx = this.#output.content
     const emots = []
     // 匹配所有[]格式的内容，并存储到emots数组中
-    ctx.replace(/\[(.*?)\]/g, ($0, $1) => {
+    const reg = new RegExp('\\' + before + '(.*?)' + '\\' + after, 'g')
+    ctx.replace(reg, ($0, $1) => {
       emots.push($1)
     })
 
@@ -136,7 +141,7 @@ export default class Emot {
       const link = this.#emotAll[emot]
       if (!link) continue
       const img = '<img src=' + link + ' alt=' + emot + '/>'
-      ctx = ctx.replace('[' + emot + ']', img)
+      ctx = ctx.replace(before + emot + after, img)
     }
     this.#output.contentHTML = ctx
   }

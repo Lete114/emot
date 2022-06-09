@@ -150,6 +150,8 @@ var Emot = /*#__PURE__*/function () {
 
     _classPrivateFieldGet(this, _options).el = document.querySelector(options.el);
     _classPrivateFieldGet(this, _options).target = document.querySelector(options.target);
+    _classPrivateFieldGet(this, _options).before = _classPrivateFieldGet(this, _options).before || '[';
+    _classPrivateFieldGet(this, _options).after = _classPrivateFieldGet(this, _options).after || ']';
 
     _classPrivateFieldSet(this, _output, {
       content: '',
@@ -223,7 +225,7 @@ function _createDOM2() {
 
         var Start = ctx.substring(0, cursorStart);
         var Ent = ctx.substring(cursorEnd);
-        if (emotValue.type === 'text') _classPrivateFieldGet(self, _output).content = Start + iValue + Ent;else _classPrivateFieldGet(self, _output).content = Start + '[' + iKey + ']' + Ent;
+        if (emotValue.type === 'text') _classPrivateFieldGet(self, _output).content = Start + iValue + Ent;else _classPrivateFieldGet(self, _output).content = Start + _classPrivateFieldGet(self, _options).before + iKey + _classPrivateFieldGet(self, _options).after + Ent;
 
         _classPrivateFieldGet(self, _options).target.focus();
 
@@ -289,11 +291,16 @@ function _createDOM2() {
 }
 
 function _parseEmot2() {
+  var before = _classPrivateFieldGet(this, _options).before;
+
+  var after = _classPrivateFieldGet(this, _options).after;
+
   var ctx = _classPrivateFieldGet(this, _output).content;
 
   var emots = []; // 匹配所有[]格式的内容，并存储到emots数组中
 
-  ctx.replace(/\[(.*?)\]/g, function ($0, $1) {
+  var reg = new RegExp('\\' + before + '(.*?)' + '\\' + after, 'g');
+  ctx.replace(reg, function ($0, $1) {
     emots.push($1);
   }); // 遍历匹配到的所有[]格式的表情
 
@@ -306,7 +313,7 @@ function _parseEmot2() {
 
     if (!link) continue;
     var img = '<img src=' + link + ' alt=' + emot + '/>';
-    ctx = ctx.replace('[' + emot + ']', img);
+    ctx = ctx.replace(before + emot + after, img);
   }
 
   _classPrivateFieldGet(this, _output).contentHTML = ctx;

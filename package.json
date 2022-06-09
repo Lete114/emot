@@ -1,6 +1,6 @@
 {
   "name": "emot",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.3",
   "description": "一个表情处理模块，支持 img 类型解析，输出两种格式的表情字符串",
   "main": "dist/emot.cjs.js",
   "module": "dist/emot.esm.js",

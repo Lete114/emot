@@ -35,9 +35,11 @@ npm install emot --save
 <script src="https://cdn.jsdelivr.net/npm/emot"></script>
 <script>
   const emot = new Emot({
-    el: 'body', // 挂载dom (支持css选择器获取dom)
-    target: 'textarea', // 目标输入容器 (支持css选择器获取dom)
-    emotMaps: 'emot.json' // 自定义表情，可以是一个url，或一个对象
+    el: 'body',               // 挂载dom (支持css选择器获取dom)
+    target: 'textarea',       // 目标输入容器 (支持css选择器获取dom)
+    emotMaps: 'emot.json',    // 自定义表情，可以是一个url，或一个对象
+    before: ':',              // 自定义标签前缀，默认[
+    after: ':'                // 自定义标签后缀，默认]
   })
   // 通过调用get()方法获取处理后的数据
   const result = emot.get()
