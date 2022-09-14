@@ -101,6 +101,10 @@ function createElement(name, className) {
   return dom;
 }
 
+function isDocument(el) {
+  return el.nodeType === 1 ? el : document.querySelector(el);
+}
+
 var _options = /*#__PURE__*/new WeakMap();
 
 var _output = /*#__PURE__*/new WeakMap();
@@ -150,8 +154,8 @@ var Emot = /*#__PURE__*/function () {
 
     _classPrivateFieldSet(this, _options, options);
 
-    _classPrivateFieldGet(this, _options).el = document.querySelector(options.el);
-    _classPrivateFieldGet(this, _options).target = document.querySelector(options.target);
+    _classPrivateFieldGet(this, _options).el = isDocument(options.el);
+    _classPrivateFieldGet(this, _options).target = isDocument(options.target);
     _classPrivateFieldGet(this, _options).before = _classPrivateFieldGet(this, _options).before || '[';
     _classPrivateFieldGet(this, _options).after = _classPrivateFieldGet(this, _options).after || ']';
 
@@ -200,7 +204,10 @@ function _init2() {
 
 function _createDOM2() {
   var self = this;
-  var root = createElement('div', 'emot');
+
+  var root = _classPrivateFieldGet(self, _options).el;
+
+  root.classList.add('emot');
 
   var emotMaps = _classPrivateFieldGet(self, _options).emotMaps;
 
@@ -288,8 +295,6 @@ function _createDOM2() {
   root.childNodes[0].classList.add('emot-items-active');
   packages.childNodes[0].classList.add('emot-package-active');
   root.appendChild(packages);
-
-  _classPrivateFieldGet(self, _options).el.appendChild(root);
 }
 
 function _parseEmot2() {

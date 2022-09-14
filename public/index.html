@@ -1,70 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>Test</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      .preview {
-        padding: 10px;
-        overflow-x: auto;
-        min-height: 1.375rem;
-        margin: 10px 0;
-        border: 1px solid #dcdfe6;
-        border-radius: 4px;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-      .preview img {
-        width: 32px;
-        height: auto;
-        vertical-align: middle;
-      }
+  <title>Test</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-      textarea {
-        margin: 10px 0 0;
-        resize: vertical;
-        width: 100%;
-        min-height: 200px;
-        outline: none;
-        font-family: inherit;
-      }
-    </style>
-    <script src="emot.js"></script>
-  </head>
+    .preview {
+      padding: 10px;
+      overflow-x: auto;
+      min-height: 1.375rem;
+      margin: 10px 0;
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+    }
 
-  <body>
-    <textarea></textarea>
-    <div class="preview"></div>
-    <script>
-      const emot = new Emot({
-        el: 'body',
-        target: 'textarea',
-        emotMaps: 'emot.json'
-      })
+    .preview img {
+      width: 32px;
+      height: auto;
+      vertical-align: middle;
+    }
 
-      function render(contentHTML) {
-        document.querySelector('.preview').innerHTML = contentHTML
-      }
+    textarea {
+      margin: 10px 0 0;
+      resize: vertical;
+      width: 100%;
+      min-height: 200px;
+      outline: none;
+      font-family: inherit;
+    }
+  </style>
+  <script src="emot.js"></script>
+</head>
 
-      defineProperty(emot.get())
-      function defineProperty(target) {
-        Object.keys(target).forEach((key) => {
-          let value = target[key]
-          Object.defineProperty(target, key, {
-            get() {
-              return value
-            },
-            set(newValue) {
-              value = newValue
-              render(value)
-            }
-          })
+<body>
+  <textarea></textarea>
+  <div class="preview"></div>
+  <div class="emots"></div>
+  <script>
+    const emot = new Emot({
+      el: document.querySelector('.emots'),
+      target: document.querySelector('textarea'),
+      emotMaps: 'emot.json'
+    })
+
+    const preview = document.querySelector('.preview')
+
+    defineProperty(emot.get())
+
+    function defineProperty(target) {
+      Object.keys(target).forEach((key) => {
+        let value = target[key]
+        Object.defineProperty(target, key, {
+          get() {
+            return value
+          },
+          set(newValue) {
+            value = newValue
+            preview.innerHTML = value
+          }
         })
-      }
-    </script>
-  </body>
+      })
+    }
+  </script>
+</body>
+
 </html>

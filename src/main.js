@@ -6,6 +6,10 @@ function createElement(name, className) {
   return dom
 }
 
+function isDocument(el) {
+  return el.nodeType === 1 ? el : document.querySelector(el)
+}
+
 export default class Emot {
   #options
   #output
@@ -13,8 +17,8 @@ export default class Emot {
   constructor(options) {
     this.#injectStyle()
     this.#options = options
-    this.#options.el = document.querySelector(options.el)
-    this.#options.target = document.querySelector(options.target)
+    this.#options.el = isDocument(options.el)
+    this.#options.target = isDocument(options.target)
     this.#options.before = this.#options.before || '['
     this.#options.after = this.#options.after || ']'
     this.#output = { content: '', contentHTML: '' }
@@ -48,7 +52,8 @@ export default class Emot {
   // eslint-disable-next-line max-statements
   #createDOM() {
     const self = this
-    const root = createElement('div', 'emot')
+    const root = self.#options.el
+    root.classList.add('emot')
     const emotMaps = self.#options.emotMaps
 
     const packages = createElement('div', 'emot-packages')
@@ -120,7 +125,6 @@ export default class Emot {
     packages.childNodes[0].classList.add('emot-package-active')
 
     root.appendChild(packages)
-    self.#options.el.appendChild(root)
   }
 
   #parseEmot() {
